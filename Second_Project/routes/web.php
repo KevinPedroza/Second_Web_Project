@@ -12,5 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::get('/viewregister', function () {
+    return view('register');
+});
+
+
+Auth::routes();
+
+Route::get("login",'LoginController@login')->name("login");
+
+Route::resource("register",'UserRegister');
+
+Route::get('/home', 'HomeController@index')->name('home');
