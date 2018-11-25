@@ -24,6 +24,17 @@ Auth::routes();
 
 Route::get("login",'LoginController@login')->name("login");
 
+
+Route::get('/admin', function () {
+    if(Session::has("adminsession")){
+        return view("admin");
+    }
+    else{
+        return redirect("/");
+    }   
+});
+
 Route::resource("register",'UserRegister');
+Route::resource("categoria",'CategoriaController');
 
 Route::get('/home', 'HomeController@index')->name('home');

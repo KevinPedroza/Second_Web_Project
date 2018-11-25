@@ -10,6 +10,14 @@ header .nav{
     justify-content: space-between;
     flex-direction: row;
 }
+header .nave{
+    width: 100%;
+    font-family: 'Indie Flower', cursive;
+    background: coral;
+    font-size: 30px;
+    color: #f2f2f2;
+    display: inline-block;
+}
 header .nav button{
     font-family: 'Indie Flower', cursive;
     background: coral;
@@ -19,6 +27,7 @@ header .nav button{
     border: none;
     transition: all .4s ease;
 }
+
 header .nav button:hover{
     background:rgba(255,127,80, 0.8);
     cursor: pointer;

@@ -88,7 +88,7 @@
             <div class="row">
             
             <!-- this form will call the php file to interact -->
-            <form class="col s12" method="POST" action="\login">
+            <form class="col s12" method="POST" action="/login">
                 @csrf
                 <h2>Log In</h2>
                 <div class="row">
