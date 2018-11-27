@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Categoria;
+use App\Producto;
+use DB;
 
-class CategoriaController extends Controller
+class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::all();
-        return view("categorias",compact("categorias"));
+        $productos = DB::select("SELECT p.*,ca.categoria AS categoria FROM productos AS p INNER JOIN categorias AS ca ON ca.id=p.id_categoria WHERE ca.id=p.id_categoria");;
+        return view("productos",compact("productos"));
     }
 
     /**
@@ -36,11 +37,22 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = new Categoria();
-        $categoria->categoria = $request->input('cate');
-        $categoria->descri = $request->input('des');
-        $categoria->save();
-        return redirect("categoria");
+        $image = $request->file('img');
+        $name = $image->getClientOriginalName();
+        $destinationPath = public_path('/img');
+        $image->move($destinationPath, $name);
+
+        $producto = new Producto();
+
+        $producto->id_producto = $request->input("sku");
+        $producto->nombre = $request->input("producto");
+        $producto->descripcion = $request->input("des");
+        $producto->img = $name;
+        $producto->id_categoria = $request->input("categoria");
+        $producto->stock = $request->input("stock");
+        $producto->precio = $request->input("precio");
+        $producto->save();
+        return redirect("producto");
     }
 
     /**
@@ -62,8 +74,8 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        $categorias = Categoria::find($id);
-        return view("modifycategory",compact("categorias"));
+        $producto = Producto::find($id);
+        return view("modifyproduct",compact("producto"));
     }
 
     /**
@@ -75,11 +87,11 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $categorias = Categoria::find($id);
-        $categorias->fill($request->all());
-        $categorias->save();
+        $producto = Producto::find($id);
+        $producto->fill($request->all());
+        $producto->save();
 
-        return redirect("/categoria");
+        return redirect("/producto");
     }
 
     /**
@@ -90,9 +102,9 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        $categorias = Categoria::find($id);
-        $categorias->delete();
+        $producto = Producto::find($id);
+        $producto->delete();
         
-        return redirect("/categoria");
+        return redirect("producto");
     }
 }

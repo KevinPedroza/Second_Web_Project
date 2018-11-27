@@ -36,5 +36,6 @@ Route::get('/admin', function () {
 
 Route::resource("register",'UserRegister');
 Route::resource("categoria",'CategoriaController');
+Route::resource("producto",'ProductoController');
 
 Route::get('/home', 'HomeController@index')->name('home');

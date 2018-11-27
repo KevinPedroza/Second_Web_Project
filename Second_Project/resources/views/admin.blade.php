@@ -9,21 +9,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script type="text/javascript"
         src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/cliente.css">    
+    <link rel="stylesheet" href="../../css/cliente.css">    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="../../js/animate.css">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 
     <?php
+        //this is gonna get the conexion from the database 
+        $conexion = new PDO("mysql:host=localhost;dbname=secondproject","root","");
+
+        //this is gonna bring the count of users registered
+        $sql = "SELECT count(*) AS cuenta FROM users;";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $info = $info2->fetch();
+        $usuarios = $info["cuenta"];
+
+        /*//this is gonna bring the count of sales registered
+        $sql = "SELECT count(*) AS cuenta FROM ventas;";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $info = $info2->fetch();
+        $ventas = $info["cuenta"];
+
+        //this is gonna bring the sum of sales registered
+        $sql = "SELECT SUM(cantidad) AS total FROM ventas AS v INNER JOIN productos AS p ON p.id_producto = v.id_producto;";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $info = $info2->fetch();
+        $total = $info["total"];*/
 
         $dataPoints = array(
-            array("label"=> "Cantidad de Clientes Registrados: ", "y"=> 10),
-            array("label"=> "Cantidad de Productos Vendidos: ", "y"=> 5),
-            array("label"=> "Monto total de Ventas: $", "y"=> 42),
+            array("label"=> "Cantidad de Clientes Registrados: " . $usuarios, "y"=> $usuarios),/*
+            array("label"=> "Cantidad de Productos Vendidos: " . $ventas, "y"=> $ventas),
+            array("label"=> "Monto total de Ventas: $" . $total, "y"=> $total),*/
         );
         
     ?>
@@ -63,9 +86,9 @@
             <div class="nav-wrapper">
             <a href="#" class="brand-logo">Pagina Administrador</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="productos.php">Productos</a></li>
+                <li><a href="/producto">Productos</a></li>
                 <li><a href="/categoria">Categorias</a></li>
-                <li><a href="cerrar.php">Cerrar Sesión</a></li>
+                <li><a href="">Cerrar Sesión</a></li>
             </ul>
             </div>
         </nav>
