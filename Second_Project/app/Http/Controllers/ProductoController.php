@@ -15,7 +15,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = DB::select("SELECT p.*,ca.categoria AS categoria FROM productos AS p INNER JOIN categorias AS ca ON ca.id=p.id_categoria WHERE ca.id=p.id_categoria");;
+        $productos = DB::select("SELECT p.*,ca.categoria AS categoria FROM productos AS p INNER JOIN categorias AS ca ON ca.id=p.id_categoria WHERE ca.id=p.id_categoria");
         return view("productos",compact("productos"));
     }
 
@@ -87,8 +87,29 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(empty($request->file("img")) || $request->file("img") == null){
+            $name = $request->input("oldimg");
+        }else{
+            $image = $request->file('img');
+            $name = $image->getClientOriginalName();
+            $destinationPath = public_path('/img');
+            $image->move($destinationPath, $name);
+        }
+        if(empty($request->input("categoria")) || $request->input("categoria") == null || $request->input("categoria") == ""){
+            $categoria = $request->input("oldcate");
+        }else{
+            $categoria = $request->input("categoria");
+        }
+
         $producto = Producto::find($id);
-        $producto->fill($request->all());
+
+        $producto->id_producto = $request->input("sku");
+        $producto->nombre = $request->input("producto");
+        $producto->descripcion = $request->input("des");
+        $producto->img = $name;
+        $producto->id_categoria = $categoria;
+        $producto->stock = $request->input("stock");
+        $producto->precio = $request->input("precio");
         $producto->save();
 
         return redirect("/producto");

@@ -196,7 +196,7 @@
 
 
     <!-- Compiled and minified JavaScript -->
-    <script src="js/wow.min.js"></script>
+    <script src="../../js/wow.min.js"></script>
     
     <!-- Activating the animations -->
     <script>
