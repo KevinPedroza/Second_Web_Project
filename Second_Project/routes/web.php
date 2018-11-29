@@ -38,4 +38,10 @@ Route::resource("register",'UserRegister');
 Route::resource("categoria",'CategoriaController');
 Route::resource("producto",'ProductoController');
 
+Route::get("cliente", function () {
+    return view('cliente');
+});
+
+
+Route::get("cerrar",'CerrarController@cerrar')->name("cerrar");
 Route::get('/home', 'HomeController@index')->name('home');

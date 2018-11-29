@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserRegister extends Controller
+class ListaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,15 +34,7 @@ class UserRegister extends Controller
      */
     public function store(Request $request)
     {
-        $persona = new User();
-        $persona->nombre = $request->input('nombre');
-        $persona->lastname = $request->input('apellido');
-        $persona->email = $request->input('correo');
-        $persona->address = $request->input('dire');
-        $persona->password =  Hash::make($request->input('contra'));
-        $persona->tipo = $request->input('tipo');
-        $persona->save();
-        return view("index");
+        //
     }
 
     /**
@@ -58,7 +47,6 @@ class UserRegister extends Controller
     {
         //
     }
-
 
     /**
      * Show the form for editing the specified resource.

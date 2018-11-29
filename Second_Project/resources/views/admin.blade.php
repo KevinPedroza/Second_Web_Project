@@ -88,7 +88,7 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="/producto">Productos</a></li>
                 <li><a href="/categoria">Categorias</a></li>
-                <li><a href="">Cerrar Sesión</a></li>
+                <li><a href="cerrar">Cerrar Sesión</a></li>
             </ul>
             </div>
         </nav>

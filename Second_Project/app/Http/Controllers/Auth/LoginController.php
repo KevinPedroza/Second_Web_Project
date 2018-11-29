@@ -26,7 +26,8 @@ class LoginController extends Controller
                 }   
             }
             elseif(Auth::attempt($credentials)){
-                return "cliente";
+                Session::put("clientesession",$email);
+                return redirect("cliente");
             }else{
                 return view("index");
             }
