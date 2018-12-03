@@ -6,22 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script type="text/javascript"
-        src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../css/cliente.css">    
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 
    <script type="text/javascript">
+
         $(document).ready(function(){
-            //$('.carousel').carousel();
+            $('.carousel').carousel();
             $('.modal').modal(); 
             $(".dropdown-trigger").dropdown();
             $('.sidenav').sidenav();
-            if(!localStorage.getItem("#modal1")){    
-                $('#modal1').modal(); 
-                $('#modal1').modal("open");
-                localStorage.setItem("#modal1","true");
-            }
+
         });
 
     </script>
@@ -54,7 +51,7 @@
         $categorias = $info2->fetchAll();
 
         //this is gonna bring all the product list from the database
-        $sql = "SELECT l.id, p.nombre, l.precio, l.cantidad, p.img FROM listas AS l INNER JOIN productos AS p ON p.id_producto = l.id_producto WHERE id_cliente = :cliente;";
+        $sql = "SELECT l.id as idlista , l.*, p.* FROM listas AS l INNER JOIN productos AS p ON p.id_producto = l.id_producto WHERE id_cliente = :cliente;";
         $info2 = $conexion->prepare($sql); 
         $info2->execute(array(':cliente' => $id["id"]));
         $lista = $info2->fetchAll();
@@ -68,7 +65,7 @@
     <header>
             <!-- Dropdown Structure -->
             <ul id="dropdown1" class="dropdown-content">
-                <li><a href="vercompras.php">Ver Compras</a></li>
+                <li><a href="vercompras">Ver Compras</a></li>
                 <li class="divider"></li>
                 <li><a href="cerrar">Cerrar Sesión</a></li>
             </ul>
@@ -77,7 +74,7 @@
                 <nav class="menu">
                     <div class="nav-wrapper">
                     <ul id="nav-mobile" class="left hide-on-med-and-down" style="display:flex; flex-direction:row;">
-                        <li><a href="cliente.php" class="brand-logo left" title="Regresar al Inicio"><i class="material-icons">shopping_cart</i>Hola, <?php echo $id["nombre"]; ?></a></li>
+                        <li><a href="/cliente" class="brand-logo left" title="Regresar al Inicio"><i class="material-icons">shopping_cart</i>Hola, <?php echo $id["nombre"]; ?></a></li>
                     </ul>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                         
@@ -94,7 +91,7 @@
         <ul id="slide-out" class="sidenav" style="text-align: center;">
             <h1>Categorias</h1>
             <?php foreach($categorias as $categoria):?>
-                <li><a class="waves-effect" href="vistaproductos.php?idcate=<?php echo $categoria["id"]?>"><?php echo $categoria["categoria"]?></a></li>
+                <li><a class="waves-effect" href="vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>"><?php echo $categoria["categoria"]?></a></li>
                 <li><div class="divider"></div></li>
             <?php endforeach;?>
         </ul>
@@ -123,10 +120,23 @@
                             <td><?php echo $producto["nombre"];?></td>
                             <td><?php echo $producto["cantidad"];?></td>
                             <td><?php echo $producto["precio"];?></td>
-                            <td><a style="color:red;" href="borrarpro.php?idpro=<?php echo $producto["id"];?>"><i class="material-icons">delete</i></a></td>
-                            <td><a  href="ventaproducto.php?idlista=<?php echo $producto["id"];?>"><i class="material-icons">attach_money</i></a></td>
+                            <form action="lista/<?php echo $producto["id"];?>" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <td><button type="submit" style="color:red; border:none;" title="Eliminar Producto" ><i class="material-icons">delete</i></button></td>                                
+                            </form>
+                            <form action="/compra" method="POST">
+                                @csrf
+                                <input type="hidden" name="cantidad" value="<?php echo $producto["cantidad"];?>">
+                                <input type="hidden" name="preciototal" value="<?php echo $producto["precio"];?>">
+                                <input type="hidden" name="idpro" value="<?php echo $producto["id_producto"];?>">
+                                <input type="hidden" name="idlista" value="<?php echo $producto["idlista"];?>">
+                                <input type="hidden" name="iduser" value="<?php echo $id["id"]; ?>">
+                                <td><button title="Comprar Producto" style="border:none;" type="submit"><i class="material-icons">attach_money</i></button></td>
+                            </form>
                         </tr>
                     <?php endforeach;?>
+
                     </tbody>
                 </table>
 

@@ -29,9 +29,8 @@ class LoginController extends Controller
                 Session::put("clientesession",$email);
                 return redirect("cliente");
             }else{
-                return view("index");
+                return back()->withErrors(['password' => "El Usuario no existe o la Informacion es Incorrecta"]);
             }
-            return back()->withErrors(['password' => "El Usuario no existe o la Informacion es Incorrecta"]);
     
     }
 

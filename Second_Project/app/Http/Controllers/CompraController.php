@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Lista;
+use App\Compras;
+use Carbon\Carbon;
+use PDO;
 
-class ListaController extends Controller
+class CompraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,13 +37,20 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
-
         //this is gonna get the conexion from the database 
         $conexion = new PDO("mysql:host=localhost;dbname=secondproject","root","");
 
-        $lista = new Lista();
-        $idpro = $request->input("idproducto");
+        //this is gonna bring all the categories from the database
+        $idlista = $request->input('idlista');
+        $sql = "DELETE FROM listas WHERE id = '$idlista';";
+        $conexion->query($sql);
+
+        //this is gonna have the id product
+        $idpro = $request->input("idpro");
+        
+        //this is gonna have the quantity of the product sold
         $cantidad = $request->input("cantidad");
+
         //this is bringing the stock from the product
         $sql = "SELECT stock FROM productos WHERE id_producto = '$idpro';";
         $info2 = $conexion->prepare($sql); 
@@ -53,13 +62,19 @@ class ListaController extends Controller
 
         //this is gonna update the quantity of products
         $sql = "UPDATE productos SET stock = '$total' WHERE id_producto = '$idpro';";
-        $conexion->query($sql);     
+        $conexion->query($sql);
 
-        $lista->id_cliente = $request->input("iduser");
-        $lista->id_producto = $idpro;
-        $lista->cantidad = $cantidad;
-        $lista->precio = $request->input("preciototal");
-        $lista->save();
+        //this is gonna get the date
+        $mytime = Carbon::now();
+        $compra = new Compras();
+       
+        //this is gonna save the information
+        $compra->id_producto = $idpro;
+        $compra->id_cliente = $request->input("iduser");
+        $compra->fecha = $mytime;
+        $compra->total = $request->input("preciototal");
+        $compra->cantidad = $cantidad;
+        $compra->save();
         return redirect("cliente");
     }
 
@@ -105,9 +120,6 @@ class ListaController extends Controller
      */
     public function destroy($id)
     {
-        $lista = Lista::find($id);
-        $lista->delete();
-        
-        return redirect("cliente");
+        //
     }
 }

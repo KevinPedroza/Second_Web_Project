@@ -25,10 +25,10 @@
         $info2 = $conexion->prepare($sql); 
         $info2->execute();
         $cate = $info2->fetchAll(); 
-        /*
+        
         if(!$cate){
             header("Location: cliente.php");
-        }*/
+        }
 
         //this is bringing the total of categories
         $totalcate = $conexion->query("SELECT FOUND_ROWS() AS total");
@@ -46,7 +46,7 @@
         $iduser = $id["id"];
 
         //this is bringing the information from the user
-        $sql = "SELECT COUNT(v.id_cliente) AS cantidad, SUM(p.precio) AS total FROM productos AS p INNER JOIN ventas AS v ON v.id_producto =p.id_producto WHERE v.id_cliente = '$iduser'";
+        $sql = "SELECT COUNT(v.id_cliente) AS cantidad, SUM(p.precio) AS total FROM productos AS p INNER JOIN compras AS v ON v.id_producto =p.id_producto WHERE v.id_cliente = '$iduser'";
         $info2 = $conexion->prepare($sql); 
         $info2->execute();
         $info = $info2->fetch();    
@@ -58,22 +58,18 @@
         );
             
     ?>
-   <script type="text/javascript">
-    $(document).ready(function(){
-
-    });
-
-</script>
 
     <!--- here we are creating and filling up the data to the chart --->
     <script>
         $(window).on('load',function(){
             $('.modal').modal(); 
             $('#modal1').modal('open');
-        });
-        window.onload = function () {
-
-        var chart = new CanvasJS.Chart("chartContainer", {
+            if(!localStorage.getItem("#modal1")){    
+                $('.modal').modal(); 
+                $('#modal1').modal("open");
+                localStorage.setItem("#modal1","true");
+            }
+            var chart = new CanvasJS.Chart("chartContainer", {
             animationEnabled: true,
             exportEnabled: true,
             theme: "light1", // "light1", "light2", "dark1", "dark2"
@@ -87,12 +83,12 @@
                 indexLabelFontSize: 16,
                 indexLabel: "{label} - #percent%",
                 yValueFormatString: "฿#,##0",
-                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>,
             }]
         });
         chart.render();
         
-        }
+        });
 
     </script>
 </head>
@@ -124,7 +120,7 @@
                 <div class="carousel">
                     
                     <?php foreach($prod as $productos):?>
-                        <a class="carousel-item" href="productosingle.php?idpro=<?php echo $productos["id_producto"];?>&idcate=<?php echo $productos["id_categoria"];?>"><img src="../../img/<?php echo $productos['img'];?>"></a>
+                        <a class="carousel-item" href="/productosingle/obtenerProductoId/<?php echo $productos["id_producto"];?>/<?php echo $productos["id_categoria"];?>"><img src="../../img/<?php echo $productos['img'];?>"></a>
                     <?php endforeach;?>
                 </div>
             </div>
@@ -142,7 +138,7 @@
                     <?php foreach($cate as $categoria):?>
                         <div class="col s3 m3">
                             <div class="card blue-grey darken-1">
-                                <a href="vistaproductos.php?idcate=<?php echo $categoria["id"];?>" class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">more_vert</i></a>
+                                <a href="vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>" class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">more_vert</i></a>
                                 <div class="card-content white-text">
                                 <h2 class="card-title">Categoria: <?php echo $categoria["categoria"];?></h2>
                                 <p><?php echo $categoria["descri"];?></p>

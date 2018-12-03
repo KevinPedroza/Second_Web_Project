@@ -29,24 +29,24 @@
         $info = $info2->fetch();
         $usuarios = $info["cuenta"];
 
-        /*//this is gonna bring the count of sales registered
-        $sql = "SELECT count(*) AS cuenta FROM ventas;";
+        //this is gonna bring the count of sales registered
+        $sql = "SELECT count(*) AS cuenta FROM compras;";
         $info2 = $conexion->prepare($sql); 
         $info2->execute();
         $info = $info2->fetch();
         $ventas = $info["cuenta"];
 
         //this is gonna bring the sum of sales registered
-        $sql = "SELECT SUM(cantidad) AS total FROM ventas AS v INNER JOIN productos AS p ON p.id_producto = v.id_producto;";
+        $sql = "SELECT SUM(total) AS total FROM compras AS v INNER JOIN productos AS p ON p.id_producto = v.id_producto;";
         $info2 = $conexion->prepare($sql); 
         $info2->execute();
         $info = $info2->fetch();
-        $total = $info["total"];*/
+        $total = $info["total"];
 
         $dataPoints = array(
-            array("label"=> "Cantidad de Clientes Registrados: " . $usuarios, "y"=> $usuarios),/*
+            array("label"=> "Cantidad de Clientes Registrados: " . $usuarios, "y"=> $usuarios),
             array("label"=> "Cantidad de Productos Vendidos: " . $ventas, "y"=> $ventas),
-            array("label"=> "Monto total de Ventas: $" . $total, "y"=> $total),*/
+            array("label"=> "Monto total de Ventas: $" . $total, "y"=> $total),
         );
         
     ?>
