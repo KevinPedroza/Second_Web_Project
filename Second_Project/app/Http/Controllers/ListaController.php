@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lista;
+use PDO;
 
 class ListaController extends Controller
 {
@@ -42,6 +43,7 @@ class ListaController extends Controller
         $lista = new Lista();
         $idpro = $request->input("idproducto");
         $cantidad = $request->input("cantidad");
+
         //this is bringing the stock from the product
         $sql = "SELECT stock FROM productos WHERE id_producto = '$idpro';";
         $info2 = $conexion->prepare($sql); 

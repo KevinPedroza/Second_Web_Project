@@ -38,7 +38,7 @@
                         <tr>
                             <td><?php echo $ventas["fecha"];?></td>
                             <td>$ <?php echo $ventas["cantidad"];?></td>
-                            <td><a href="items.php?idventa=<?php echo $ventas["id"];?>">Ver Más<i class="material-icons left">more_vert</i></a></td>
+                            <td><a href="items/obteneridVenta/<?php echo $ventas["id"];?>">Ver Más<i class="material-icons left">more_vert</i></a></td>
                         </tr>
                     <?php endforeach;?>
                 </tbody>

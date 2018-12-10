@@ -113,6 +113,7 @@
                 <div class="error" style="color: red; font-size: 20px;">
 
                 </div>
+                {!! $errors->first("password" , '<span style="color:red; font-size:25px;">:message</span>') !!}
                 <button class="btn waves-effect waves-light" type="submit" name="action">Guardar Producto
                     <i class="material-icons right">add</i>
                 </button>

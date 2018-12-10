@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Producto;
 use DB;
+use PDO;
 
 class ProductoController extends Controller
 {
@@ -37,22 +38,37 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('img');
-        $name = $image->getClientOriginalName();
-        $destinationPath = public_path('/img');
-        $image->move($destinationPath, $name);
+        //this is gonna get the conexion from the database 
+        $conexion = new PDO("mysql:host=localhost;dbname=secondproject","root","");
 
-        $producto = new Producto();
+        $idpro = $request->input("sku");
 
-        $producto->id_producto = $request->input("sku");
-        $producto->nombre = $request->input("producto");
-        $producto->descripcion = $request->input("des");
-        $producto->img = $name;
-        $producto->id_categoria = $request->input("categoria");
-        $producto->stock = $request->input("stock");
-        $producto->precio = $request->input("precio");
-        $producto->save();
-        return redirect("producto");
+        //this is bringing the stock from the product
+        $sql = "SELECT id_producto FROM productos WHERE id_producto = '$idpro';";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $stock = $info2->fetch();
+
+        if($stock["id_producto"] !== null || $stock["id_producto"] !== false){
+            return back()->withErrors(['password' => "Ese codigo de producto ya existe!"]);
+        }else{
+            $image = $request->file('img');
+            $name = $image->getClientOriginalName();
+            $destinationPath = public_path('/img');
+            $image->move($destinationPath, $name);
+    
+            $producto = new Producto();
+    
+            $producto->id_producto = $idpro;
+            $producto->nombre = $request->input("producto");
+            $producto->descripcion = $request->input("des");
+            $producto->img = $name;
+            $producto->id_categoria = $request->input("categoria");
+            $producto->stock = $request->input("stock");
+            $producto->precio = $request->input("precio");
+            $producto->save();
+            return redirect("producto");
+        }
     }
 
     /**

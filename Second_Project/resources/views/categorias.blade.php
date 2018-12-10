@@ -62,6 +62,7 @@
                         <!-- error --->
                     </div>
                 </div>
+                {!! $errors->first("password" , '<span style="color:red; font-size:25px;">:message</span>') !!}
                 <button class="btn waves-effect waves-light" type="submit" >Guardar Categoria
                     <i class="material-icons right">add</i>
                 </button>

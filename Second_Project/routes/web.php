@@ -13,6 +13,10 @@ Route::get("cliente", function () {
 Route::get("vercompras", function () {
     return view('vercompras');
 });
+Route::get("items/obteneridVenta/{idventa}", function ($idventa) {
+    $idventa = $idventa;
+    return view("items",compact("idventa"));
+});
 
 Auth::routes();
 
@@ -27,7 +31,7 @@ Route::get('/admin', function () {
         return view("admin");
     }
     else{
-        return redirect("/");
+        return back()->withErrors(['password' => "No tienes Permisos de Administrador!"]);
     }   
 });
 

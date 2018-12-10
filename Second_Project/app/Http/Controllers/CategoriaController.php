@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria;
+use PDO;
 
 class CategoriaController extends Controller
 {
@@ -36,11 +37,26 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = new Categoria();
-        $categoria->categoria = $request->input('cate');
-        $categoria->descri = $request->input('des');
-        $categoria->save();
-        return redirect("categoria");
+        //this is gonna get the conexion from the database 
+        $conexion = new PDO("mysql:host=localhost;dbname=secondproject","root","");
+
+        $idcate = $request->input("cate");
+
+        //this is bringing the stock from the product
+        $sql = "SELECT categoria FROM categorias WHERE categoria = '$idcate';";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $stock = $info2->fetch();
+
+        if($stock["categoria"] !== false || $stock["categoria"]  !== null){
+            return back()->withErrors(['password' => "Ese codigo de producto ya existe!"]);
+        }else{
+            $categoria = new Categoria();
+            $categoria->categoria = $idcate;
+            $categoria->descri = $request->input('des');
+            $categoria->save();
+            return redirect("categoria");
+        }
     }
 
     /**

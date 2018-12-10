@@ -104,7 +104,7 @@
                     </div>
                     <input type="hidden" name="tipo" value="0">
                 </div>
-                {!! $errors->first("password" , '<span style="color:red;">:message</span>') !!}
+                {!! $errors->first("password" , '<span style="color:red; font-size:25px;">:message</span>') !!}
                 <button class="btn waves-effect waves-light" type="submit" name="action">Log In
                     <i class="material-icons right">send</i>
                 </button>
