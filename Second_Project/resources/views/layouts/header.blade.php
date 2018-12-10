@@ -65,9 +65,9 @@
     <header>
             <!-- Dropdown Structure -->
             <ul id="dropdown1" class="dropdown-content">
-                <li><a href="vercompras">Ver Compras</a></li>
+                <li><a href="/vercompras">Ver Compras</a></li>
                 <li class="divider"></li>
-                <li><a href="cerrar">Cerrar Sesión</a></li>
+                <li><a href="/cerrar">Cerrar Sesión</a></li>
             </ul>
             <!-- this is gonna have the navbar of the page -->
             <div class="navbar-fixed">
@@ -91,7 +91,7 @@
         <ul id="slide-out" class="sidenav" style="text-align: center;">
             <h1>Categorias</h1>
             <?php foreach($categorias as $categoria):?>
-                <li><a class="waves-effect" href="vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>"><?php echo $categoria["categoria"]?></a></li>
+                <li><a class="waves-effect" href="/vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>"><?php echo $categoria["categoria"]?></a></li>
                 <li><div class="divider"></div></li>
             <?php endforeach;?>
         </ul>
@@ -120,7 +120,7 @@
                             <td><?php echo $producto["nombre"];?></td>
                             <td><?php echo $producto["cantidad"];?></td>
                             <td><?php echo $producto["precio"];?></td>
-                            <form action="lista/<?php echo $producto["id"];?>" method="POST">
+                            <form action="/lista/<?php echo $producto["idlista"];?>" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <td><button type="submit" style="color:red; border:none;" title="Eliminar Producto" ><i class="material-icons">delete</i></button></td>                                

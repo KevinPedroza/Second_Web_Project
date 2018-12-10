@@ -138,7 +138,7 @@
                     <?php foreach($cate as $categoria):?>
                         <div class="col s3 m3">
                             <div class="card blue-grey darken-1">
-                                <a href="vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>" class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">more_vert</i></a>
+                                <a href="/vistaproductos/obtenerCategoriaId/<?php echo $categoria["id"];?>" class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">more_vert</i></a>
                                 <div class="card-content white-text">
                                 <h2 class="card-title">Categoria: <?php echo $categoria["categoria"];?></h2>
                                 <p><?php echo $categoria["descri"];?></p>

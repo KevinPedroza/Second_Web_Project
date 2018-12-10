@@ -49,7 +49,7 @@ class CategoriaController extends Controller
         $stock = $info2->fetch();
 
         if($stock["categoria"] !== false || $stock["categoria"]  !== null){
-            return back()->withErrors(['password' => "Ese codigo de producto ya existe!"]);
+            return back()->withErrors(['password' => "Esa Categoria ya existe!"]);
         }else{
             $categoria = new Categoria();
             $categoria->categoria = $idcate;

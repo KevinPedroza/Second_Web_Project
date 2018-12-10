@@ -107,6 +107,30 @@ class ListaController extends Controller
      */
     public function destroy($id)
     {
+        //this is gonna get the conexion from the database 
+        $conexion = new PDO("mysql:host=localhost;dbname=secondproject","root","");
+
+        //this is bringing the stock from the product
+        $sql = "SELECT id_producto,cantidad FROM listas WHERE id = '$id';";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $stock = $info2->fetch();
+
+        $idpro = $stock["id_producto"];
+
+        //this is gonna bring the quantity of products
+        $sql = "SELECT stock FROM productos WHERE id_producto = '$idpro';";
+        $info2 = $conexion->prepare($sql); 
+        $info2->execute();
+        $stockproducto = $info2->fetch();
+
+        //this is getting the total of the rest
+        $total = $stock["cantidad"] + $stockproducto["stock"];
+
+        //this is gonna update the quantity of products
+        $sql = "UPDATE productos SET stock = '$total' WHERE id_producto = '$idpro';";
+        $conexion->query($sql); 
+
         $lista = Lista::find($id);
         $lista->delete();
         
